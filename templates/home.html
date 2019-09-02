@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/reset.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://kit.fontawesome.com/ced79a0d9b.js"></script>
+    <title>Evaluating Real Estate</title>
+</head>
+<body>
+<!-- changed the nav bar code -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/info">Additional Information</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  <br>
+    <div class="jumbotron">
+        <div class="container">
+          <h1 class="display-4">Evaluating Real Estate</h1><hr>
+          <h6>Created By: David Kling, Michael Magliaro, Benjamin Eck</h6><hr>
+          <p class="lead">Our Original Idea: Are population fluxuations correlated to real estate prices? If so, can we use this data in conjunction with basic property metrics to estimate sale prices for active listings?</p> <hr>
+          <p style="color: red">After creating several models to predict real estate prices the best model we could create had a score of 0.4722. We decided to dive deeper into the data and see what else we could predict using it.</p><hr>
+          <p class="lead">Our Refined Idea: Can we use machine learning to classify properties into county and/or cities/towns based on several property attributes?</p><hr>
+          <p>We used data sources from Garden State MLS to create the following models.</p>
+        </div>
+    </div>
+    
+    <div class="data-entry">
+        <div class="row">
+            <div class="col-xs-6 col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <img src="{{ url_for('static', filename = 'house.jpg') }}" width="600" height="400">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body"><p>Please Enter Your House Information Here:</p>
+                      <div class="panel-body1">
+                            <div>
+                              <form action="/" method='post'>
+                                Acerage: <input type="number" name="ac" min="0" required><br>
+                                List Price: <input type="number" name="lp" min="0" required><br>
+                                Number of full bathrooms: <input type="number" name="fb" min="0" required><br>
+                                Number of half bathrooms: <input type="number" name="hb" min="0" required><br>
+                                Number of bedrooms: <input type="number" name="bd" min="0" required><br>
+                                Total number of rooms: <input type="number" name="rooms" min="0" required><br>
+                                Is there a basement? <select name="bmnt" required>
+                                  <option style="display:none;" disabled selected value></option>
+                                  <option value="0">No</option>
+                                  <option value="1">Yes</option>
+                                </select><br>
+                                Are there exterior features? (i.e. deck, patio) <select name="ext" required>
+                                  <option style="display:none;" disabled selected value></option>
+                                  <option value="0">No</option>
+                                  <option value="1">Yes</option>
+                                </select><br>
+                                Is there air conditioning? <select name="cool" required>
+                                  <option style="display:none;" disabled selected value></option>
+                                  <option value="0">No</option>
+                                  <option value="1">Yes</option>
+                                </select><br>
+                                Is the heating system forced hot air? <select name="heat" required>
+                                  <option style="display:none;" disabled selected value></option>
+                                  <option value="0">No</option>
+                                  <option value="1">Yes</option>
+                                </select><br>
+                                Is the water supply privately or publicly owned? <select name="water" required>
+                                  <option style="display:none;" disabled selected value></option>
+                                  <option value="0">Private Owned</option>
+                                  <option value="1">Public Owned</option>
+                                </select><br>
+                                Is the septic or sewer privately or publicly owned? <select name="sewer" required>
+                                  <option style="display:none;" disabled selected value></option>
+                                  <option value="0">Private Owned</option>
+                                  <option value="1">Public Owned</option>
+                                </select><br>
+                                Is it in a 55 year old and up community? <select name="fha" required>
+                                    <option style="display:none;" disabled selected value></option>
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                  </select><br>
+                                Land assessment value: <input type="number" name="la" min="0" required><br>
+                                Building assessment value: <input type="number" name="ba" min="0" required><br>
+                                Tax amount: <input type="number" name="ta" min="0" required><br>
+                                <input type="submit" value="Submit">
+                              </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
+    <br>
+    <br>
+    <div class="container-result">
+      <div class="row align-items-center justify-content-center">
+        {% if cResult is defined %}
+        <div class="col-3 align-self-center">
+          <ul>
+            <h4>County Classification Prediction:</h4><hr>
+            {% for result in cResult %}
+             <li>{{ (result[1]*100)|int }}% {{ result[0] }} county.</li>
+            {% endfor %}
+              <br>
+              <br>
+          </ul>
+        </div>
+        <div class="col-3 align-self-center">
+          <ul>
+            <h4>Town Classification Prediction (Using All Data):</h4><hr>
+            {% for x in range(0,5) %}
+             <li>{{ (atmResult[x][1]*100)|int }}%  {{ atmResult[x][0] }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-3 align-self-center">
+          <ul>
+            <h4>County Classification Prediction (Using Sussex County Data Only):</h4><hr>
+            {% for x in range(0,5) %}
+             <li>{{ (stmResult[x][1]*100)|int }}% {{ stmResult[x][0] }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-3 align-self-center">
+          <ul>
+            <h4>County Classification Prediction (Using Union County Data Only):</h4><hr>
+            {% for x in range(0,5) %}
+             <li>{{ (utmResult[x][1]*100)|int }}% {{ utmResult[x][0] }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+           {% else %}
+           <ul></ul>
+             {% endif %}
+        </div>
+      </div>
+      
+    </div> 
+    </div>
+    <div class="container footer">
+      <div class="row align-items-center justify-content-around" style="height: 40px">
+          <div class="col align-self-center">
+              <i class="fab fa-github"></i>  
+              <a href="https://github.com/EckBen/Evaluating-Real-Estate.git">Github Repository and Explanation</a>
+          </div>
+          <div class="col align-self-center">
+              <i class="fas fa-university"></i>  
+              <a href="https://gsmls.com/">Website Used to Gather Data</a>
+          </div>
+          <div class="col align-self-center">
+              <div>Created: July 2019</div>
+          </div>
+      </div>
+    </div>      
+  </body>
+</html>
